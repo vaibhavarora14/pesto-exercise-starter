@@ -3,7 +3,6 @@ const validNumbers = (...values) => {
 
   if (values === undefined || values.length === undefined || values.length <= 0) {
     result = false;
-    return result;
   }
 
   for (let index = 0; index < values.length; index += 1) {
