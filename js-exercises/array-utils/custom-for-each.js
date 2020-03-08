@@ -43,8 +43,6 @@ const customForEach = (array, callback, thisArgument) => {
   } else {
     throw new TypeError(`${callback} is not a function`);
   }
-
-  return undefined;
 };
 
 export {
