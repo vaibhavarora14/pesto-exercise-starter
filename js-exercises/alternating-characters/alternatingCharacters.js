@@ -1,4 +1,5 @@
-function getCountOfSwitchForAlternateCharacterInString(element) {
+// TODO: this function should support input of characters to be found and alternate as well
+function countSwitchesForAlternateCharacters(element) {
   let countOfSwitch = 0;
   let expectingNextCharacterInString = element[0];
   for (const character of element) {
@@ -34,7 +35,7 @@ function alternatingCharacters(arr) {
     if (element.length < 2) {
       resultArray.push(0);
     } else {
-      const countOfCharacterToSwitch = getCountOfSwitchForAlternateCharacterInString(element);
+      const countOfCharacterToSwitch = countSwitchesForAlternateCharacters(element);
       resultArray.push(countOfCharacterToSwitch);
     }
   }
