@@ -1,38 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from './functional-components/button';
 import { Input } from './functional-components/input';
 import { Table } from './functional-components/table';
 
 
 const Grocery = () => {
-  const groceries = [{
+  const [groceries, setGroceries] = useState([{
     item: 'chana',
     quantity: 2
-  }];
+  }]);
+
+  const addGrocery = (groceryName) => {
+    const groceriesClone = [...groceries];
+    const grocery = groceriesClone.find(grocery => grocery.item === groceryName);
+
+    if (grocery) {
+      grocery.quantity += 1;
+    } else {
+      groceriesClone.push({
+        item: groceryName,
+        quantity: 1
+      });
+    }
+    setGroceries(groceriesClone);
+  }
 
   return (
     <div>
-      <AddGrocery />
+      <AddGrocery onAdd={addGrocery} />
       <GroceryList list={groceries} />
     </div>
   );
 };
 
-const AddGrocery = () => {
+const AddGrocery = (props) => {
+  let [isInputEmpty, setIsInputEmpty] = useState(true);
+  let [inputValue, setInputValue] = useState('');
 
-  let isInputEmpty = true;
-  const changeHandler = (event) => {
-    if (event.target.value.trim() !== '') {
-      isInputEmpty = false;
+  const changeHandler = ({ target: { value } }) => {
+    if (value.trim() !== '') {
+      setIsInputEmpty(false);
     } else {
-      isInputEmpty = true;
+      setIsInputEmpty(true);
     }
+
+    setInputValue(value.trim());
   }
 
   return (
     <div>
-      <Input changeHandler={changeHandler} />
-      <Button value='Add' disabled={!isInputEmpty} />
+      <Input id="groceryInput" value={inputValue} changeHandler={changeHandler} />
+      <Button value='Add' disabled={isInputEmpty} clickHandler={() => { props.onAdd(inputValue); setInputValue(''); }} />
     </div>
   );
 };
