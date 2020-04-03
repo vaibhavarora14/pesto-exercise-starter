@@ -4,6 +4,7 @@ import { Input } from "./functional-components/input/input";
 import { Table } from "./functional-components/table/table";
 import { ReactComponent as CartIcon } from "./cart.svg";
 import { ReactComponent as CartReadydIcon } from "./cart-ready.svg";
+import "./grocery.css";
 
 const Grocery = () => {
   const [groceries, setGroceries] = useState([
@@ -35,7 +36,7 @@ const Grocery = () => {
   return (
     <div>
       <AddGrocery onAdd={addGrocery} style={{ marginBottom: "2rem" }} />
-      <GroceryList list={groceries} />
+      <GroceryList list={groceries} setGroceries={setGroceries} />
     </div>
   );
 };
@@ -87,13 +88,29 @@ const GroceryList = (props) => {
       return <th></th>;
     }
   });
-  const rowsHtml = props.list.map((row) => (
-    <tr>
-      {Object.keys(row).map(
+
+  const toggleCartState = (groceryName) => {
+    const groceriesClone = [...props.list];
+    const grocery = groceriesClone.find(
+      (grocery) => grocery.item === groceryName
+    );
+
+    grocery._selectedForCart = !grocery._selectedForCart;
+    props.setGroceries(groceriesClone);
+  };
+
+  const rowsHtml = props.list.map((grocery) => (
+    <tr
+      className="highlightOnHover"
+      onClick={() => {
+        toggleCartState(grocery.item);
+      }}
+    >
+      {Object.keys(grocery).map(
         (value) =>
-          value.indexOf("_") !== 0 && <td align="center">{row[value]}</td>
+          value.indexOf("_") !== 0 && <td align="center">{grocery[value]}</td>
       )}
-      {row["_selectedForCart"] === true ? (
+      {grocery["_selectedForCart"] === true ? (
         <td>
           <CartIcon style={{ width: "1.8rem", height: "1.8rem" }} />
         </td>
