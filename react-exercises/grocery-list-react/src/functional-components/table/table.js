@@ -14,4 +14,4 @@ const Table = (props) => {
   );
 };
 
-export { Table };
+export default Table;
