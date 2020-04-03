@@ -1,0 +1,15 @@
+table {
+  border-spacing: 0;
+}
+
+th,
+td {
+  border-bottom: 1px solid #c6bebe;
+  padding: 0.5rem 1rem;
+}
+
+th {
+  font-weight: normal;
+  color: #959494;
+  min-width: 6rem;
+}

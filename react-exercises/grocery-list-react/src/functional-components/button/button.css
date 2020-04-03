@@ -1,0 +1,28 @@
+button[color="primary"] {
+  border-color: #3faaaa;
+  background-color: #3faaaa;
+}
+
+button[type="outline"] {
+  background-color: transparent;
+}
+
+button[type="outline"][color="primary"]:hover:not([disabled]) {
+  background-color: #3faaaa;
+  color: #fff;
+}
+
+button {
+  background-color: transparent;
+  border: 1px solid black;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.2rem;
+}
+
+button:not([disabled]) {
+  cursor: pointer;
+}
+
+button[disabled] {
+  /* opacity; */
+}

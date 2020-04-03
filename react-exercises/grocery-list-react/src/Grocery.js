@@ -1,33 +1,40 @@
-import React, { useState } from 'react';
-import { Button } from './functional-components/button';
-import { Input } from './functional-components/input';
-import { Table } from './functional-components/table';
-
+import React, { useState } from "react";
+import { Button } from "./functional-components/button/button";
+import { Input } from "./functional-components/input/input";
+import { Table } from "./functional-components/table/table";
+import { ReactComponent as CartIcon } from "./cart.svg";
+import { ReactComponent as CartReadydIcon } from "./cart-ready.svg";
 
 const Grocery = () => {
-  const [groceries, setGroceries] = useState([{
-    item: 'chana',
-    quantity: 2
-  }]);
+  const [groceries, setGroceries] = useState([
+    {
+      item: "chana",
+      quantity: 2,
+      _selectedForCart: false,
+    },
+  ]);
 
   const addGrocery = (groceryName) => {
     const groceriesClone = [...groceries];
-    const grocery = groceriesClone.find(grocery => grocery.item === groceryName);
+    const grocery = groceriesClone.find(
+      (grocery) => grocery.item === groceryName
+    );
 
     if (grocery) {
       grocery.quantity += 1;
     } else {
       groceriesClone.push({
         item: groceryName,
-        quantity: 1
+        quantity: 1,
+        _selectedForCart: false,
       });
     }
     setGroceries(groceriesClone);
-  }
+  };
 
   return (
     <div>
-      <AddGrocery onAdd={addGrocery} />
+      <AddGrocery onAdd={addGrocery} style={{ marginBottom: "2rem" }} />
       <GroceryList list={groceries} />
     </div>
   );
@@ -35,36 +42,74 @@ const Grocery = () => {
 
 const AddGrocery = (props) => {
   let [isInputEmpty, setIsInputEmpty] = useState(true);
-  let [inputValue, setInputValue] = useState('');
+  let [inputValue, setInputValue] = useState("");
 
   const changeHandler = ({ target: { value } }) => {
-    if (value.trim() !== '') {
+    if (value.trim() !== "") {
       setIsInputEmpty(false);
     } else {
       setIsInputEmpty(true);
     }
 
     setInputValue(value.trim());
-  }
+  };
+
+  const addGrocery = () => {
+    props.onAdd(inputValue);
+    setInputValue("");
+  };
 
   return (
-    <div>
-      <Input id="groceryInput" value={inputValue} changeHandler={changeHandler} />
-      <Button value='Add' disabled={isInputEmpty} clickHandler={() => { props.onAdd(inputValue); setInputValue(''); }} />
+    <div style={props.style}>
+      <h1>Grocery Shop</h1>
+      <Input
+        id="groceryInput"
+        value={inputValue}
+        changeHandler={changeHandler}
+        enterHanlder={addGrocery}
+        style={{ marginRight: "2rem" }}
+      />
+      <Button
+        value="Add"
+        disabled={isInputEmpty}
+        clickHandler={addGrocery}
+        style={{ minWidth: "5rem" }}
+      />
     </div>
   );
 };
 
 const GroceryList = (props) => {
-  const tableData = {
-    columns: ['item', 'quantity'],
-    rows: props.list
-  }
-  return (
-    <Table data={tableData} />
-  );
+  const headersHtml = Object.keys(props.list[0]).map((key) => {
+    if (key.indexOf("_") !== 0) {
+      return <th>{key}</th>;
+    } else {
+      return <th></th>;
+    }
+  });
+  const rowsHtml = props.list.map((row) => (
+    <tr>
+      {Object.keys(row).map(
+        (value) =>
+          value.indexOf("_") !== 0 && <td align="center">{row[value]}</td>
+      )}
+      {row["_selectedForCart"] === true ? (
+        <td>
+          <CartIcon style={{ width: "1.8rem", height: "1.8rem" }} />
+        </td>
+      ) : (
+        <td>
+          <CartReadydIcon style={{ width: "1.8rem", height: "1.8rem" }} />
+        </td>
+      )}
+    </tr>
+  ));
+
+  const data = {
+    headersHtml,
+    rowsHtml,
+  };
+  return <Table data={data} />;
 };
 
-export {
-  Grocery
-};
+export { Grocery };
