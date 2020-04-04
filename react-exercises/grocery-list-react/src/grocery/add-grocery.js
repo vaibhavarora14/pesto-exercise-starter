@@ -3,16 +3,9 @@ import Button from "../functional-components/button/button";
 import Input from "../functional-components/input/input";
 
 const AddGrocery = (props) => {
-  const [isInputEmpty, setIsInputEmpty] = useState(true);
   const [inputValue, setInputValue] = useState("");
 
   const changeHandler = ({ target: { value } }) => {
-    if (value.trim() !== "") {
-      setIsInputEmpty(false);
-    } else {
-      setIsInputEmpty(true);
-    }
-
     setInputValue(value.trim());
   };
 
@@ -32,7 +25,7 @@ const AddGrocery = (props) => {
       />
       <Button
         value="Add"
-        disabled={isInputEmpty}
+        disabled={inputValue.trim() === ""}
         clickHandler={addGrocery}
         style={{ minWidth: "5rem" }}
       />
