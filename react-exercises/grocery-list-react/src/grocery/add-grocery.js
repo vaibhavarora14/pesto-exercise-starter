@@ -3,8 +3,8 @@ import Button from "../functional-components/button/button";
 import Input from "../functional-components/input/input";
 
 const AddGrocery = (props) => {
-  let [isInputEmpty, setIsInputEmpty] = useState(true);
-  let [inputValue, setInputValue] = useState("");
+  const [isInputEmpty, setIsInputEmpty] = useState(true);
+  const [inputValue, setInputValue] = useState("");
 
   const changeHandler = ({ target: { value } }) => {
     if (value.trim() !== "") {
@@ -17,13 +17,12 @@ const AddGrocery = (props) => {
   };
 
   const addGrocery = () => {
-    props.onAdd(inputValue);
-    setInputValue("");
+    addGroceries(inputValue, props.groceries, props.groceriesSetter);
+    resetInputValue(setInputValue);
   };
 
   return (
     <div style={props.style}>
-      <h1>Grocery Shop</h1>
       <Input
         id="groceryInput"
         value={inputValue}
@@ -40,5 +39,27 @@ const AddGrocery = (props) => {
     </div>
   );
 };
+
+function resetInputValue(inputSetter) {
+  inputSetter("");
+}
+
+function addGroceries(groceryName, groceriesArray, groceriesSetter) {
+  const groceriesClone = [...groceriesArray];
+  const grocery = groceriesClone.find(
+    (grocery) => grocery.item === groceryName
+  );
+
+  if (grocery) {
+    grocery.quantity += 1;
+  } else {
+    groceriesClone.push({
+      item: groceryName,
+      quantity: 1,
+      _selectedForCart: false,
+    });
+  }
+  groceriesSetter(groceriesClone);
+}
 
 export default AddGrocery;
