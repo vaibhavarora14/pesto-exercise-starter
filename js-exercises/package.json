@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "devDependencies": {
     "babel-jest": "^25.1.0",
@@ -21,7 +23,8 @@
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "^2.4.0",
     "husky": "^4.2.3",
-    "lint-staged": "^10.0.7"
+    "lint-staged": "^10.0.7",
+    "snyk": "^1.316.1"
   },
   "husky": {
     "hooks": {
@@ -32,5 +35,6 @@
     "!(*.test).js": [
       "eslint"
     ]
-  }
+  },
+  "snyk": true
 }
