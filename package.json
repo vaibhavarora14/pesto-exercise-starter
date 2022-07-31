@@ -18,7 +18,7 @@
     "lodash": "^4.17.15",
     "mkdirp": "^1.0.3",
     "node-cmd": "^3.0.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.2.10",
     "url-join": "^4.0.1"
   }
 }
